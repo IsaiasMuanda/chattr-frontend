@@ -62,7 +62,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="flex flex-col h-full border-r border-border bg-card w-72 shrink-0">
+    <aside className="flex flex-col h-full border-r border-border bg-card w-full">
       {/* Header */}
       <div className="px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">

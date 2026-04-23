@@ -5,23 +5,22 @@ import { MessageBubble } from "./MessageBubble";
 import { MessageInput } from "./MessageInput";
 import { UserAvatar } from "../UserAvatar";
 import { formatDate } from "../../lib/utils";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, ArrowLeft } from "lucide-react";
 
 export function ChatWindow() {
-  const { selectedUser, messages, isLoadingMessages, subscribeToMessages, unsubscribeFromMessages } = useChatStore();
-  const { authUser, onlineUsers, socket } = useAuthStore(); const bottomRef = useRef<HTMLDivElement>(null);
-
-  // const { socket } = useAuthStore();
+  const { selectedUser, messages, isLoadingMessages, subscribeToMessages, unsubscribeFromMessages, selectUser } = useChatStore();
+  const { authUser, onlineUsers } = useAuthStore();
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!socket) return;
     subscribeToMessages();
     return () => unsubscribeFromMessages();
-  }, [socket, subscribeToMessages, unsubscribeFromMessages]);
+  }, [subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
   if (!selectedUser) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-3 text-center bg-background">
@@ -51,6 +50,12 @@ export function ChatWindow() {
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-background">
       {/* Header */}
       <div className="px-4 py-3 border-b border-border bg-card flex items-center gap-3 shrink-0">
+        <button
+          onClick={() => selectUser(null)}
+          className="md:hidden text-muted-foreground hover:text-foreground transition-colors mr-1"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
         <UserAvatar name={selectedUser.fullName} src={selectedUser.profilePic} size="sm" online={isOnline} />
         <div>
           <p className="text-sm font-semibold leading-none">{selectedUser.fullName}</p>
