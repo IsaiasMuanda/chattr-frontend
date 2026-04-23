@@ -4,7 +4,7 @@ Interface de chat em tempo real. Construída com React 19 e TypeScript, comunica
 
 Parte do projecto chattr — desenvolvido para demonstrar integração de WebSockets, gestão de estado com Zustand e boas práticas de arquitectura frontend.
 
-→ **Backend:** [github.com/IsaiasMuanda/chattr-backend](https://github.com/IsaiasMuanda)  
+→ **Backend:** https://github.com/IsaiasMuanda/chattr-backend.git
 → **Demo:** https://chattr-frontend-three.vercel.app/login
 
 ---
