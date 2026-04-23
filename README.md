@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # chattr — frontend
 
 Interface de chat em tempo real para o backend chattr.
@@ -58,3 +59,7 @@ npm run dev
 - Edição de perfil (nome, bio, foto, senha)
 - Exclusão de conta
 - Pesquisa de contatos
+=======
+# chattr-frontend
+Aplicativo de chat em tempo real construído com React 19, TypeScript, Socket.io e shadcn/ui.
+>>>>>>> d75128fca85ada5ffb5202c0d9e6511a95789abb
