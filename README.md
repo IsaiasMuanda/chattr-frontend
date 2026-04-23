@@ -1,65 +1,81 @@
-<<<<<<< HEAD
 # chattr — frontend
 
-Interface de chat em tempo real para o backend chattr.
+Interface de chat em tempo real. Construída com React 19 e TypeScript, comunicação via Socket.io e design minimalista com shadcn/ui.
 
-## Stack
+Parte do projecto chattr — desenvolvido para demonstrar integração de WebSockets, gestão de estado com Zustand e boas práticas de arquitectura frontend.
 
-- **React 19** + **TypeScript**
-- **Vite 6**
-- **Tailwind CSS v3** + **shadcn/ui** (componentes headless com Radix UI)
-- **Zustand** — gerenciamento de estado (auth, chat, tema)
-- **Axios** — chamadas HTTP com cookies JWT
-- **socket.io-client** — mensagens em tempo real
-- **react-hot-toast** — notificações
-- **lucide-react** — ícones
+→ **Backend:** [github.com/IsaiasMuanda/chattr-backend](https://github.com/IsaiasMuanda)  
+→ **Demo:** [chattr.vercel.app](#)
 
-## Estrutura
+---
+
+## Funcionalidades
+
+- Login e registo com validação
+- Lista de contactos com status online em tempo real
+- Mensagens instantâneas via Socket.io
+- Envio de imagens
+- Tema dark/light persistido
+- Edição de perfil (nome, bio, foto, senha)
+- Pesquisa de contactos
+
+## Stack e decisões técnicas
+
+| Tecnologia | Motivo da escolha |
+|---|---|
+| **React 19 + TypeScript** | Type safety end-to-end; detecção de erros em tempo de compilação |
+| **Vite 6** | Build extremamente rápido em desenvolvimento |
+| **Zustand** | Estado global simples sem boilerplate — auth, chat e tema em stores separadas |
+| **socket.io-client** | Sincronização bidirecional com o backend; re-subscrição automática ao reconectar |
+| **shadcn/ui + Radix UI** | Componentes acessíveis e headless; controlo total sobre o estilo |
+| **Tailwind CSS** | Utilitários consistentes; sem CSS customizado excepto variáveis de tema |
+| **Axios** | Instância centralizada com `withCredentials` para cookies JWT |
+
+## Arquitectura
 
 ```
 src/
 ├── components/
-│   ├── ui/           # Componentes shadcn/ui (Button, Input, Dialog…)
-│   ├── chat/         # Sidebar, ChatWindow, MessageBubble, MessageInput
+│   ├── ui/          # Componentes shadcn/ui (Button, Input, Dialog…)
+│   ├── chat/        # Sidebar, ChatWindow, MessageBubble, MessageInput
 │   └── UserAvatar.tsx
-├── pages/
-│   ├── LoginPage.tsx
-│   ├── SignupPage.tsx
-│   └── ChatPage.tsx
-├── store/
-│   ├── authStore.ts  # Auth + Socket.io
-│   ├── chatStore.ts  # Usuários + Mensagens
-│   └── themeStore.ts # Dark/light (persistido)
-├── lib/
-│   ├── axios.ts
-│   └── utils.ts
-└── types/index.ts
+├── pages/           # LoginPage, SignupPage, ChatPage
+├── store/           # authStore (auth + socket), chatStore, themeStore
+├── lib/             # axios.ts, utils.ts
+└── types/           # Tipos partilhados (User, Message)
 ```
 
-## Como rodar
+A gestão de estado está dividida em três stores independentes com responsabilidades claras. O socket é inicializado dentro do `authStore` após login e partilhado com o `chatStore` via `getState()`, evitando prop drilling e re-renders desnecessários.
+
+## Correr localmente
 
 ```bash
-# Instalar dependências
+git clone https://github.com/IsaiasMuanda/chattr-frontend.git
+cd chattr-frontend
 npm install
-
-# Copiar variáveis de ambiente
-cp .env.example .env
-
-# Iniciar em desenvolvimento (requer backend na porta 5001)
+cp .env.example .env   # preenche com o URL do backend
 npm run dev
 ```
 
-## Funcionalidades
+**Variáveis necessárias:**
 
-- Login / Cadastro com validação
-- Lista de contatos com status online em tempo real
-- Chat em tempo real via Socket.io
-- Envio de imagens (base64 → Cloudinary)
-- Tema dark/light persistido
-- Edição de perfil (nome, bio, foto, senha)
-- Exclusão de conta
-- Pesquisa de contatos
-=======
-# chattr-frontend
-Aplicativo de chat em tempo real construído com React 19, TypeScript, Socket.io e shadcn/ui.
->>>>>>> d75128fca85ada5ffb5202c0d9e6511a95789abb
+```env
+VITE_API_URL=http://localhost:5001/api
+VITE_SOCKET_URL=http://localhost:5001
+```
+
+## Deploy
+
+Frontend em produção no **Vercel**.
+
+O ficheiro `vercel.json` na raiz configura o rewrite de rotas para suporte ao React Router:
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
+
+---
+
+Feito por [Isaias Muanda](https://isaias.vercel.app)
